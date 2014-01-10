@@ -1,2 +1,2 @@
-require 'whitesimilarity/whitesimilarity'
 require 'whitesimilarity/version'
+require 'whitesimilarity/whitesimilarity'
