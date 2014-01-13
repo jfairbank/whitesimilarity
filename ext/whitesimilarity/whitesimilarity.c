@@ -14,7 +14,7 @@ VALUE method_white_similarity(VALUE self, VALUE str1, VALUE str2);
 void Init_whitesimilarity() {
   WhiteSimilarity = rb_define_module("WhiteSimilarity");
   rb_define_singleton_method(WhiteSimilarity, "similarity", method_white_similarity, 2);
-  rb_define_const(WhiteSimilarity, "VERSION", rb_str_new2(WHITE_SIMILARITY_VERSION);
+  rb_define_const(WhiteSimilarity, "VERSION", rb_str_new2(WHITE_SIMILARITY_VERSION));
 }
 
 VALUE method_white_similarity(VALUE self, VALUE rstr1, VALUE rstr2) {
