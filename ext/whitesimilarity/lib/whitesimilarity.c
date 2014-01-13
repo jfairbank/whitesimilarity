@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
   }
 
   d = white_similarity(argv[1], argv[2]);
-  printf("white similarity for '%s' and '%s' is %f\n", argv[1], argv[2], d);
+  printf("White Similarity for '%s' and '%s' is %f\n", argv[1], argv[2], d);
 
   return 0;
 }
