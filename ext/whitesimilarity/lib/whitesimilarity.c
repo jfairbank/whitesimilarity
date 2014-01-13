@@ -9,28 +9,15 @@
 #define will_make_bad_pair(str, i) \
   (_empty_char(*(str + i)) || _empty_char(*(str + i + 1)) || _null_char(*(str + i + 1)))
 
-/*#define pairs_equal(a, b) (strcmp(a->string, b->string) == 0)*/
 #define pairs_equal(a, b) (strcmp(a, b) == 0)
-
-// Pair struct
-/*typedef struct { char *string; } t_pair;*/
 
 // Pairs struct
 typedef struct {
-  /*t_pair **array;*/
   char **array;
   int count;
 } t_pairs;
 
 // Free up a pair
-/*void destroy_pair(t_pair *pair) {
-  if (pair != NULL) {
-    free(pair->string);
-    pair->string = NULL;
-    free(pair);
-  }
-}*/
-
 void destroy_pair(char *pair) {
   if (pair != NULL) {
     free(pair);
@@ -77,11 +64,9 @@ t_pairs *letter_pairs(char *str) {
   int counter    = 0;
   int num_pairs  = get_num_pairs(str);
   t_pairs *pairs = malloc(sizeof(t_pairs));
-  /*t_pair *pair   = NULL;*/
   char *pair     = NULL;
 
   pairs->count = num_pairs;
-  /*pairs->array = calloc(num_pairs, sizeof(t_pair *));*/
   pairs->array = calloc(num_pairs, sizeof(char *));
 
   for (i = 0; i < l; i++) {
@@ -90,12 +75,7 @@ t_pairs *letter_pairs(char *str) {
     }
 
     // Create and add pair
-    /*pair                  = malloc(sizeof(t_pair));*/
-    pair                  = calloc(3, sizeof(char));
-    /*pair->string          = calloc(3, sizeof(char));*/
-    /*strncpy(pair->string, str + i, 2);
-    pair->string[0]       = toupper(pair->string[0]);
-    pair->string[1]       = toupper(pair->string[1]);*/
+    pair = calloc(3, sizeof(char));
     strncpy(pair, str + i, 2);
     pairs->array[counter] = pair;
 
