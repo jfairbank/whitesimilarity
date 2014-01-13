@@ -64,6 +64,8 @@ char **letter_pairs(int num_pairs, char *str) {
     // Create and add pair
     pair = calloc(3, sizeof(char));
     strncpy(pair, str + i, 2);
+    pair[0] = toupper(pair[0]);
+    pair[1] = toupper(pair[1]);
     pairs[counter] = pair;
 
     // Increment the counter for adding the pair to the pairs struct
