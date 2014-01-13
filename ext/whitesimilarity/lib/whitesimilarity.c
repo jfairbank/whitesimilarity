@@ -11,12 +11,6 @@
 
 #define pairs_equal(a, b) (strcmp(a, b) == 0)
 
-// Pairs struct
-typedef struct {
-  char **array;
-  int count;
-} t_pairs;
-
 // Free up a pair
 void destroy_pair(char *pair) {
   if (pair != NULL) {
@@ -25,19 +19,16 @@ void destroy_pair(char *pair) {
 }
 
 // Remove a pair struct from a pairs struct at the index p
-void remove_pair_at(t_pairs *pairs, int p) {
+void remove_pair_at(int num_pairs, char **pairs, int p) {
   int i = 0;
 
   // Free up the pair
-  destroy_pair(pairs->array[p]);
-  pairs->array[p] = NULL;
+  destroy_pair(pairs[p]);
+  pairs[p] = NULL;
 
-  // Decrease the pair count
-  pairs->count--;
-
-  // Reassign positions of other pairs in struct
-  for (i = p; i < pairs->count; i++) {
-    pairs->array[i] = pairs->array[i + 1];
+  // Reassign positions of other pairs
+  for (i = p; i < num_pairs; i++) {
+    pairs[i] = pairs[i + 1];
   }
 }
 
@@ -58,16 +49,12 @@ int get_num_pairs(char *str) {
 }
 
 // Create the pairs from the string
-t_pairs *letter_pairs(char *str) {
-  int i          = 0;
-  int l          = strlen(str);
-  int counter    = 0;
-  int num_pairs  = get_num_pairs(str);
-  t_pairs *pairs = malloc(sizeof(t_pairs));
-  char *pair     = NULL;
-
-  pairs->count = num_pairs;
-  pairs->array = calloc(num_pairs, sizeof(char *));
+char **letter_pairs(int num_pairs, char *str) {
+  int i        = 0;
+  int l        = strlen(str);
+  int counter  = 0;
+  char **pairs = calloc(num_pairs, sizeof(char *));
+  char *pair   = NULL;
 
   for (i = 0; i < l; i++) {
     if (will_make_bad_pair(str, i)) {
@@ -77,7 +64,7 @@ t_pairs *letter_pairs(char *str) {
     // Create and add pair
     pair = calloc(3, sizeof(char));
     strncpy(pair, str + i, 2);
-    pairs->array[counter] = pair;
+    pairs[counter] = pair;
 
     // Increment the counter for adding the pair to the pairs struct
     counter++;
@@ -86,43 +73,45 @@ t_pairs *letter_pairs(char *str) {
   return pairs;
 }
 
-void destroy_letter_pairs(t_pairs *pairs) {
+void destroy_letter_pairs(int num_pairs, char **pairs) {
   int i = 0;
-  int num_pairs = pairs->count;
 
   // Free each pair
   for (i = 0; i < num_pairs; i++) {
-    destroy_pair(pairs->array[i]);
+    destroy_pair(pairs[i]);
   }
 
-  // Free the pairs array
-  free(pairs->array);
-
-  // Free the pairs struct
+  // Free the array
   free(pairs);
 }
 
 double white_similarity(char *str1, char *str2) {
-  t_pairs *pairs1 = letter_pairs(str1);
-  t_pairs *pairs2 = letter_pairs(str2);
+  int num_pairs1 = get_num_pairs(str1);
+  int num_pairs2 = get_num_pairs(str2);
 
-  int i = 0;
-  int j = 0;
+  char **pairs1 = letter_pairs(num_pairs1, str1);
+  char **pairs2 = letter_pairs(num_pairs2, str2);
+
+  int i            = 0;
+  int j            = 0;
   int intersection = 0;
-  int sum = pairs1->count + pairs2->count;
+  int sum          = num_pairs1 + num_pairs2;
 
-  for (i = 0; i < pairs1->count; i++) {
-    for (j = 0; j < pairs2->count; j++) {
-      if (pairs_equal(pairs1->array[i], pairs2->array[j])) {
+  for (i = 0; i < num_pairs1; i++) {
+    for (j = 0; j < num_pairs2; j++) {
+      if (pairs_equal(pairs1[i], pairs2[j])) {
         intersection++;
-        remove_pair_at(pairs2, j);
+
+        // Removing pair, so make sure to decrement `num_pairs2`
+        num_pairs2--;
+        remove_pair_at(num_pairs2, pairs2, j);
         break;
       }
     }
   }
 
-  destroy_letter_pairs(pairs1);
-  destroy_letter_pairs(pairs2);
+  destroy_letter_pairs(num_pairs1, pairs1);
+  destroy_letter_pairs(num_pairs2, pairs2);
 
   return (2.0 * intersection) / sum;
 }
