@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "whitesimilarity.h"
+#include "white_similarity.h"
 
 #define _empty_char(c) (c == ' ')
 #define _null_char(c) (c == '\0')
