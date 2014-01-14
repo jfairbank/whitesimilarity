@@ -1,6 +1,5 @@
 #include <ctype.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include "white_similarity.h"
 
@@ -9,14 +8,8 @@
 #define will_make_bad_pair(str, i) \
   (_empty_char(*(str + i)) || _empty_char(*(str + i + 1)) || _null_char(*(str + i + 1)))
 
-#define pairs_equal(a, b) (strcmp(a, b) == 0)
-
-// Free up a pair
-void destroy_pair(char *pair) {
-  if (pair != NULL) {
-    free(pair);
-  }
-}
+#define pairs_equal(a, b) (a[0] == b[0] && a[1] == b[1])
+#define destroy_pair(p) if (p != NULL) free(p)
 
 // Remove a pair struct from a pairs struct at the index p
 void remove_pair_at(int num_pairs, char **pairs, int p) {
@@ -37,7 +30,7 @@ int get_num_pairs(char *str) {
   int i = 0;
   int num_pairs = 0;
 
-  while (*(str + i) != '\0') {
+  while (str[i] != '\0') {
     if (!will_make_bad_pair(str, i)) {
       num_pairs++;
     }
@@ -51,25 +44,23 @@ int get_num_pairs(char *str) {
 // Create the pairs from the string
 char **letter_pairs(int num_pairs, char *str) {
   int i        = 0;
-  int l        = strlen(str);
   int counter  = 0;
   char **pairs = calloc(num_pairs, sizeof(char *));
   char *pair   = NULL;
 
-  for (i = 0; i < l; i++) {
-    if (will_make_bad_pair(str, i)) {
-      continue;
+  while (str[i] != '\0') {
+    if (!will_make_bad_pair(str, i)) {
+      // Create and add pair
+      pair = calloc(2, sizeof(char));
+      pair[0] = toupper(str[i]);
+      pair[1] = toupper(str[i + 1]);
+      pairs[counter] = pair;
+
+      // Increment the counter for adding the pair to the pairs struct
+      counter++;
     }
 
-    // Create and add pair
-    pair = calloc(3, sizeof(char));
-    strncpy(pair, str + i, 2);
-    pair[0] = toupper(pair[0]);
-    pair[1] = toupper(pair[1]);
-    pairs[counter] = pair;
-
-    // Increment the counter for adding the pair to the pairs struct
-    counter++;
+    i++;
   }
 
   return pairs;
