@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['elpapapollo@gmail.com']
   spec.description   = %q{An implementation of the White Similarity Algorithm in C}
   spec.summary       = %q{White Similarity Algorithm}
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/jfairbank/whitesimilarity'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -21,5 +21,4 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rake-compiler'
 end
