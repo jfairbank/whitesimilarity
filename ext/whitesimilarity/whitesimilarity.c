@@ -1,5 +1,5 @@
 #include "ruby.h"
-#include "lib/whitesimilarity.h"
+#include "white_similarity.h"
 
 // Ruby stuff
 // ----------
