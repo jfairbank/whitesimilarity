@@ -29,7 +29,7 @@ WhiteSimilarity.similarity('dog', 'DOGE') # 0.8 - Case insensitive
 WhiteSimilarity.similarity('foo', 'for')  # 0.5
 ```
 
-A use case for the similarity algorithm is to find the best matching string for another given string.
+A common use case for the similarity algorithm is to find the best matching string for another given string.
 
 ```ruby
 class Choices < Array
@@ -38,7 +38,7 @@ class Choices < Array
       WhiteSimilarity.similarity(a_string, b) <=> WhiteSimilarity.similarity(a_string, a)
     end.first
   end
-end # class Choices < Array
+end
 
 c = Choices.new %w(foo bar quux hello world)
 
